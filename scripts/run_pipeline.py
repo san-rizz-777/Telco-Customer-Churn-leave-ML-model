@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+"""
+Runs sequentially: load → validate → preprocess → feature engineering
+"""
+
 import os
 import sys
 import time
