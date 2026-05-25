@@ -21,7 +21,7 @@ def preprocess(df: pd.DataFrame, target_col: str = "Churn") -> pd.DataFrame:
 
     # target to 0/1 if it's No/Yes
     if target_col in df.columns and df[target_col].dtype == "object":
-        df[target_col].str.strip().map({"No":0, "Yes":1})
+        df[target_col] = df[target_col].str.strip().map({"No":0, "Yes":1})
 
     # Total Charges often blank in dataset coerce to float
     if "TotalCharges" in df.columns:

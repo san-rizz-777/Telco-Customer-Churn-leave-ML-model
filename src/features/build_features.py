@@ -77,11 +77,11 @@ def build_features(df: pd.DataFrame, target_col:str = "Churn") -> pd.DataFrame:
         df[c] = map_binary_series(df[c].astype("str"))
         print(f"{c}: {ori_type} to binary[0/1]")
 
-    # Apply OHE for multi-label coliumns
+    # Apply OHE for multi-label columns
     ori_shape = df.shape
 
     df = one_hot_encoding(multi_cols, df)
-    new_features = df.shape[1] - ori_shape + len(multi_cols)
+    new_features = df.shape[1] - ori_shape[1] + len(multi_cols)
 
     print(f"Created {new_features} new features from {len(multi_cols)} categorical features.")
 
