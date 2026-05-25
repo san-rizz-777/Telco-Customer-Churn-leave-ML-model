@@ -15,7 +15,7 @@ def preprocess(df: pd.DataFrame, target_col: str = "Churn") -> pd.DataFrame:
     df.columns = df.columns.str.strip()
 
     # drop the customer ids if present
-    for col in ["customerID, CustomerID, customer_id"]:
+    for col in ["customerID", "CustomerID", "customer_id"]:
         if col in df.columns:
             df = df.drop(columns=[col])
 

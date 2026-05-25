@@ -13,15 +13,19 @@ def validate_data(df: pd.DataFrame) -> Tuple[bool, List[str]]:
 
     print("Starting data validation with Great Expectations...")
 
+    if "TotalCharges" in df.columns:
+        df_c = df.copy()  # avoid mutating the original df
+        df_c["TotalCharges"] = pd.to_numeric(df_c["TotalCharges"], errors="coerce").fillna(0)
+
     # Convert the pandas dataframe to Great Expectations dataset
-    ge_df = ge.dataset.PandasDataset(df)
+    ge_df = ge.dataset.PandasDataset(df_c)
 
     ##### Schema validation(essential columns)####
     print("Validating schema and essential columns...")
 
     # Customer identifier must exist (required for business operations)
     ge_df.expect_column_to_exist("customerID")
-    ge_df.expect_column_to_not_be_null("customerID")
+    ge_df.expect_column_values_to_not_be_null("customerID")
 
     # Core demographic features
     ge_df.expect_column_to_exist("gender")
@@ -65,7 +69,7 @@ def validate_data(df: pd.DataFrame) -> Tuple[bool, List[str]]:
     print("Validating numeric ranges and business constraints...")
 
     # Tenure must be non-negative (business logic - can't have negative tenure)
-    ge_df.expect_column_values_to_be_between("tenure", min_value=0)
+    ge_df.expect_column_values_to_be_between("tenure", min_value=0 )
 
     # Monthly charges must be positive (business logic - no free service)
     ge_df.expect_column_values_to_be_between("MonthlyCharges", min_value=0)
