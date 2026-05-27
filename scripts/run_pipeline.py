@@ -30,6 +30,9 @@ from utils.validate import validate_data
 
 def main(args):
     """
+# Ensure we can import from src/serving when running "uvicorn src.app.app:app"
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
     Main training pipeline function that orchestrates the total workflow.
     """
 

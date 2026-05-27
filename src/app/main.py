@@ -206,7 +206,7 @@ demo = gr.Interface(
 
 # mount the gradio ui into fastapi
 # creates the /ui endpoint that serves the Gradio interface
-app = gr.mount_gradio_app(app, demo, url='/ui')         # fastapi instance , gradio interface and url accesible to it
+app = gr.mount_gradio_app(app, demo, path='/ui')         # fastapi instance , gradio interface and url accesible to it
 
 
 

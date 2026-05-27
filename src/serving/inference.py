@@ -25,6 +25,7 @@ import os
 import pandas as pd
 import mlflow
 import glob
+import json
 
 ##### MODEL LOADING CONFIGURATION
 # Important: This path is set during Docker container build
@@ -43,7 +44,8 @@ except Exception as e:
     # Fallback for local development
     try:
         # Try loading from local MLflow tracking
-        local_model_paths = glob.glob("./mlruns/*/*/artifacts/model")
+        BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        local_model_paths = glob.glob(os.path.join(BASE_DIR, "mlruns/*/models/*/artifacts"))
         if local_model_paths:
             latest_model = max(local_model_paths, key=os.path.getmtime)
             model = mlflow.pyfunc.load_model(latest_model)
@@ -58,9 +60,10 @@ except Exception as e:
 #Load the exact feature column order used during training (could be fatal....)
 # This ensures the model receives features in the expected order
 try:
-    feature_file = os.path.join(MODEL_DIR, "feature_columns.txt")
+    feature_file = os.path.join(BASE_DIR, "artifacts", "features_columns.json")
     with open(feature_file) as f:
-        FEATURE_COLS = [ln.strip() for ln in f if ln.strip()]
+        FEATURE_COLS = json.load(f)
+
     print(f"Loaded {len(FEATURE_COLS)} feature columns from training")
 except Exception as e:
     raise Exception(f"Failed to load feature columns: {e}")
