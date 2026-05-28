@@ -20,7 +20,7 @@ COPY src/serving/model /app/model
 COPY artifacts/features_columns.json /app/artifacts/features_columns.json
 
 # make "serving" and "app" importable without the "src." prefix
-# ensures logs are shown in real-time (no buffering).
+# ensures logs are shown in real-time (no buffering).from
 # lets us import modules using from app... instead of from src.app....
 ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app/src
