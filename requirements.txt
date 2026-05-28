@@ -8,3 +8,4 @@ numpy==1.26.4
 scikit-learn==1.5.2
 pydantic==2.8.2
 setuptools<82
+huggingface_hub
