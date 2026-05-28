@@ -31,7 +31,7 @@ import json
 # Important: This path is set during Docker container build
 # In development: uses local MLflow artifacts
 # In production: uses model copied to container at build time
-MODEL_DIR = "/app/model"
+MODEL_DIR = "/app/src/serving/model"
 
 try:
     # Load the trained XGBoost model in MLflow pyfunc format
@@ -60,7 +60,7 @@ except Exception as e:
 #Load the exact feature column order used during training (could be fatal....)
 # This ensures the model receives features in the expected order
 try:
-    feature_file = os.path.join(BASE_DIR, "artifacts", "features_columns.json")
+    feature_file = "/app/artifacts/features_columns.json"
     with open(feature_file) as f:
         FEATURE_COLS = json.load(f)
 
