@@ -22,3 +22,4 @@ data/processed_data/
 !src/serving/model/**
 
 #src/serving/model/*.pkl
+src/serving/model/
