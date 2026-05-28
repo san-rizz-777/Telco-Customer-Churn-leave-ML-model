@@ -15,6 +15,10 @@ RUN pip install --upgrade pip \
 # Copy the entire project into the image
 COPY . .
 
+# Copy explicitly
+COPY src/serving/model /app/model
+COPY artifacts/features_columns.json /app/artifacts/features_columns.json
+
 # make "serving" and "app" importable without the "src." prefix
 # ensures logs are shown in real-time (no buffering).
 # lets us import modules using from app... instead of from src.app....
@@ -22,7 +26,7 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app/src
 
 #  Expose FastAPI port
-EXPOSE 8000
+EXPOSE 7860
 
 # Run the FastAPI app using uvicorn
-CMD ["python", "-m", "uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "7860"]
